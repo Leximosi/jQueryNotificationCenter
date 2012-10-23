@@ -1,4 +1,10 @@
 ###
+ * Copyright 2012 Erik Frèrejean
+ * Released under the MIT license
+ * http://leximosi.github.com
+###
+
+###
 NotificationCenter object instance
 ###
 _notificationCenter = undefined

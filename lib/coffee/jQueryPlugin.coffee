@@ -1,3 +1,8 @@
+###
+ * Copyright 2012 Erik Frèrejean 
+ * Released under the MIT license
+ * http://leximosi.github.com
+###
 (($) ->
 	$.extend true
 		'NotificationCenter': (method) ->
