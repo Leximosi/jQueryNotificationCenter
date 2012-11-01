@@ -15,6 +15,10 @@ Allows you to easily send notifications on OS X in supported
 browsers
 ###
 class jQueryNotificationCenter
+	@PERMISSIONSET:			0
+	@PERMISSIONNOTSET:		1
+	@PERMISSIONSETBLOCKED:	2
+
 	constructor: (notificationTitle, notificationBody, notificationAction, notificationRequestAction, notificationBlockedAction) ->
 		@notificationCenterAvailable	= if window.webkitNotifications is undefined then false else true
 
@@ -28,13 +32,13 @@ Send a notification
 	###
 	notify: ->
 		switch @getPermission()
-			when 0
+			when @PERMISSIONSET
 				notification			= webkitNotifications.createNotification null, @notificationTitle, @notificationBody
 				notification.onclick	= @notificationAction if @notificationAction isnt undefined
 				notification.show()
-			when 1
+			when @PERMISSIONNOTSET
 				webkitNotifications.requestPermission => @notify()
-			when 2
+			when @PERMISSIONSETBLOCKED
 				@notificationBlockedAction() if @notificationBlockedAction isnt undefined
 
 	###
