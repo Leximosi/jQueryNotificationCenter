@@ -15,25 +15,27 @@ Allows you to easily send notifications on OS X in supported
 browsers
 ###
 class jQueryNotificationCenter
-	constructor: ->
-		@notificationCenterAvailable	= if window.webkitNotifications? then true else false
-		@notificationRequestAction		= ->
+	constructor: (notificationTitle, notificationBody, notificationAction, notificationRequestAction, notificationBlockedAction) ->
+		@notificationCenterAvailable	= if window.webkitNotifications is undefined then false else true
+
+		@setNotification notificationTitle, notificationBody, notificationAction
+		@setRequestAction notificationRequestAction
+		@setBlockedAction notificationBlockedAction
 
 	###
 Send a notification
 @param String notification The string that will be send
 	###
 	notify: ->
-		if @hasNotificationCenter() is true
-			switch @getPermission()
-				when 0
-					_notification = webkitNotifications.createNotification null, @notificationTitle, @notificationBody
-					if @notificationAction isnt 'undefined' then _notification.onclick = @notificationAction
-					_notification.show()
-				when 1
-					webkitNotifications.requestPermission => @notify()
-				when 2
-					@notificationBlockedAction()
+		switch @getPermission()
+			when 0
+				notification			= webkitNotifications.createNotification null, @notificationTitle, @notificationBody
+				notification.onclick	= @notificationAction if @notificationAction isnt undefined
+				notification.show()
+			when 1
+				webkitNotifications.requestPermission => @notify()
+			when 2
+				@notificationBlockedAction() if @notificationBlockedAction isnt undefined
 
 	###
 Returns whether the users browser supports Notification Center
@@ -48,11 +50,8 @@ this before
 
 @param callback callback The action performed after the permission is set
 	###
-	askPermission: (callback) ->
-		if @hasNotificationCenter() is true
-			callback = callback or @notificationRequestAction()
-			if webkitNotifications.checkPermission() is 1
-				webkitNotifications.requestPermission callback
+	askPermission: (callback = @notificationRequestAction()) ->
+		webkitNotifications.requestPermission callback
 
 	###
 Get the permission the user gave to this site
@@ -62,8 +61,7 @@ Get the permission the user gave to this site
 2 = User blocked notifications.
 	###
 	getPermission: ->
-		if this.hasNotificationCenter() is true
-			return webkitNotifications.checkPermission()
+		return webkitNotifications.checkPermission()
 
 	###
 Setup the notification
@@ -72,14 +70,14 @@ Setup the notification
 @param String notificationBody
 @param callback notificationAction
 	###
-	setNotification: (@notificationTitle, @notificationBody, @notificationAction) ->
+	setNotification: (@notificationTitle = '', @notificationBody = '', @notificationAction = undefined) ->
 
 	###
 Set the action performed after requesting permissions
 	###
-	setRequestAction: (@notificationRequestAction) ->
+	setRequestAction: (@notificationRequestAction = undefined) ->
 
 	###
 Set the action performed when the user blocked notifications
 	###
-	setBlockedAction: (@notificationBlockedAction) ->
+	setBlockedAction: (@notificationBlockedAction = undefined) ->
