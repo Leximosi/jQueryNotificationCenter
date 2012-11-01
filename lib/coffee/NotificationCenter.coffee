@@ -7,14 +7,14 @@
 ###
 NotificationCenter object instance
 ###
-_notificationCenter = undefined
+_jQueryNotificationCenterObject = undefined
 
 ###
 NotificationCenter class.
 Allows you to easily send notifications on OS X in supported
 browsers
 ###
-class NotificationCenter
+class jQueryNotificationCenter
 	constructor: ->
 		@notificationCenterAvailable	= if window.webkitNotifications? then true else false
 		@notificationRequestAction		= ->
@@ -24,7 +24,7 @@ Send a notification
 @param String notification The string that will be send
 	###
 	notify: ->
-		if _notificationCenter.hasNotificationCenter() is true
+		if @hasNotificationCenter() is true
 			switch @getPermission()
 				when 0
 					_notification = webkitNotifications.createNotification null, @notificationTitle, @notificationBody
@@ -49,7 +49,7 @@ this before
 @param callback callback The action performed after the permission is set
 	###
 	askPermission: (callback) ->
-		if _notificationCenter.hasNotificationCenter() is true
+		if @hasNotificationCenter() is true
 			callback = callback or @notificationRequestAction()
 			if webkitNotifications.checkPermission() is 1
 				webkitNotifications.requestPermission callback
@@ -62,7 +62,7 @@ Get the permission the user gave to this site
 2 = User blocked notifications.
 	###
 	getPermission: ->
-		if _notificationCenter.hasNotificationCenter() is true
+		if this.hasNotificationCenter() is true
 			return webkitNotifications.checkPermission()
 
 	###

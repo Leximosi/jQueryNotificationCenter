@@ -6,10 +6,10 @@
 (($) ->
 	$.extend true
 		'NotificationCenter': (method) ->
-			if _notificationCenter is undefined then _notificationCenter = new NotificationCenter()
+			_jQueryNotificationCenterObject = new jQueryNotificationCenter() if _jQueryNotificationCenterObject is undefined
 
-			if NotificationCenter.prototype[method] is undefined
-				$.error "Method: #{method} does not exist on jQuery.NotificationCenter"
+			if jQueryNotificationCenter.prototype[method] is undefined
+				$.error "Method: #{method} does not exist on jQueryNotificationCenter"
 
-			NotificationCenter.prototype[method].apply(_notificationCenter, Array.prototype.slice.call(arguments, 1));
+			jQueryNotificationCenter.prototype[method].apply _jQueryNotificationCenterObject, Array.prototype.slice.call arguments, 1;
 ) jQuery
