@@ -18,7 +18,7 @@ clean:
 	fi;
 
 build:
-	coffee -l -c -j jQueryNotificationCenter.js -o lib/ ./lib/coffee/*.coffee
+	coffee -lcj jQueryNotificationCenter.js -o lib/ ./coffee/*.coffee
 
 uglify:
 	uglifyjs -o ./lib/jQueryNotificationCenter.min.js -mt ./lib/jQueryNotificationCenter.js 
