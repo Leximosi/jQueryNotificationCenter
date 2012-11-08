@@ -11,6 +11,8 @@
 			if jQueryNotificationCenter.prototype[method] is undefined
 				$.error "Method: #{method} does not exist on jQueryNotificationCenter"
 
-			if _jQueryNotificationCenterObject.hasNotificationCenter() is true or method is "hasNotificationCenter"
+			if method is "hasNotificationCenter"
+				_jQueryNotificationCenterObject.hasNotificationCenter()
+			else if _jQueryNotificationCenterObject.hasNotificationCenter() is true
 				jQueryNotificationCenter.prototype[method].apply _jQueryNotificationCenterObject, Array.prototype.slice.call arguments, 1;
 ) jQuery
