@@ -4,7 +4,7 @@
 # http://leximosi.github.com
 #
 
-all: clean build uglify
+all: clean test build uglify
 
 clean:
 	if [ -a ./lib/jQueryNotificationCenter.js ] ; \
@@ -19,6 +19,9 @@ clean:
 
 build:
 	coffee -lcj jQueryNotificationCenter.js -o lib/ ./coffee/*.coffee
+
+test:
+	coffeelint -f ./coffee/lint.json ./coffee/*.coffee
 
 uglify:
 	uglifyjs -o ./lib/jQueryNotificationCenter.min.js -mt ./lib/jQueryNotificationCenter.js 

@@ -1,5 +1,5 @@
 ###
- * Copyright 2012 Erik Frèrejean 
+ * Copyright 2012 Erik Frèrejean
  * Released under the MIT license
  * http://leximosi.github.com
 ###
@@ -14,5 +14,6 @@
 			if method is "hasNotificationCenter"
 				_jQueryNotificationCenterObject.hasNotificationCenter()
 			else if _jQueryNotificationCenterObject.hasNotificationCenter() is true
-				jQueryNotificationCenter.prototype[method].apply _jQueryNotificationCenterObject, Array.prototype.slice.call arguments, 1;
+				_arguments = Array.prototype.slice.call arguments, 1
+				jQueryNotificationCenter.prototype[method].apply _jQueryNotificationCenterObject, _arguments;
 ) jQuery
